@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Subida de Imágenes</title>
+    <script>
+        function uploadImages() {
+            var formData = new FormData(document.getElementById('upload-form'));
+            var xhr = new XMLHttpRequest();
+
+            // Configurar la barra de progreso
+            xhr.upload.onprogress = function(e) {
+                if (e.lengthComputable) {
+                    var percentComplete = (e.loaded / e.total) * 100;
+                    document.getElementById('progressBar').value = percentComplete;
+                }
+            };
+
+            xhr.open('POST', '/upload', true);
+
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    alert('Subida completada');
+                } else {
+                    alert('Error en la subida');
+                }
+            };
+
+            xhr.send(formData);
+        }
+    </script>
+</head>
+<body>
+    <form id="upload-form" enctype="multipart/form-data">
+        <input type="file" name="images" multiple>
+        <input type="button" value="Subir Imágenes" onclick="uploadImages()">
+    </form>
+    <progress id="progressBar" value="0" max="100"></progress>
+</body>
+</html>
